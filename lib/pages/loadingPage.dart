@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-// import 'package:food_app/menu.dart';
+import 'package:food_app/menu.dart';
 import 'package:food_app/pages/loginPage.dart';
 
 class loadingPage extends StatefulWidget {

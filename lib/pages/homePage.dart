@@ -1,14 +1,35 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:food_app/models.dart';
+import 'package:food_app/repository.dart';
 import 'package:food_app/widgets/categoryCard.dart';
 import 'package:food_app/widgets/foodCart.dart';
 import 'package:food_app/widgets/recommendedCard.dart';
 import 'package:food_app/widgets/restaurantCard.dart';
 import 'package:food_app/widgets/search.dart';
 
-class homePage extends StatelessWidget {
+class homePage extends StatefulWidget {
   const homePage({super.key});
+
+  @override
+  State<homePage> createState() => _homePageState();
+}
+
+class _homePageState extends State<homePage> {
+  List<Restaurant> listRestaurant = [];
+  Repository repository = Repository();
+
+  getData() async {
+    listRestaurant = await repository.getData();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -240,22 +261,21 @@ class homePage extends StatelessWidget {
               SizedBox(height: 20),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    restaurantCard(
-                      name: "Esandra Restauran",
-                      image: "images/restaurant1.png",
-                      ontap: () {},
-                    ),
-                    SizedBox(width: 15),
-                    restaurantCard(
-                      name: "Esandra Restauran",
-                      image: "images/restaurant2.png",
-                      ontap: () {},
-                    ),
-                    SizedBox(width: 15),
-                  ],
+                child: Container(
+                  height: 200,
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return restaurantCard(
+                        name: listRestaurant[index].name_restoran,
+                        image: listRestaurant[index].image,
+                        ontap: () {},
+                      );
+                    },
+                    itemCount: listRestaurant.length,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -295,3 +315,25 @@ class homePage extends StatelessWidget {
     );
   }
 }
+
+
+// SingleChildScrollView(
+//                 scrollDirection: Axis.horizontal,
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                   children: [
+//                     restaurantCard(
+//                       name: "Esandra Restauran",
+//                       image: "images/restaurant1.png",
+//                       ontap: () {},
+//                     ),
+//                     SizedBox(width: 15),
+//                     restaurantCard(
+//                       name: "Esandra Restauran",
+//                       image: "images/restaurant2.png",
+//                       ontap: () {},
+//                     ),
+//                     SizedBox(width: 15),
+//                   ],
+//                 ),
+//               ),
